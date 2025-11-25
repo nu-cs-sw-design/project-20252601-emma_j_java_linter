@@ -3,13 +3,12 @@ import org.objectweb.asm.ClassReader;
 import asm.ClassInfo;
 import asm.MyClassVisitor;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.jar.Attributes.Name;
-
 import checks.NameCheck;
 import checks.CycleCheck;
 import checks.RedundancyCheck;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class Linter {
 
@@ -23,9 +22,13 @@ public class Linter {
 
         try {
             ClassInfo classInfo = new ClassInfo();
-            ClassReader classReader = new ClassReader(classFilePath);
+            ClassReader classReader = new ClassReader(new FileInputStream(classFilePath));
             MyClassVisitor classVisitor = new MyClassVisitor(classInfo);
-            System.out.println("currently checking class: " + classInfo.className);
+
+            // traverse class to fill info
+            classReader.accept(classVisitor, 0);
+
+            System.out.println("Currently checking class: " + classInfo.className);
 
             NameCheck nameCheck = new NameCheck();
             nameCheck.run(classInfo);
@@ -36,11 +39,9 @@ public class Linter {
             RedundancyCheck redundancyCheck = new RedundancyCheck();
             redundancyCheck.run(classInfo);
 
-
         } catch (IOException e) {
-            System.out.println("error reading class file");
+            System.out.println("Error reading class file");
             e.printStackTrace();
-        }     
+        }
     }
-    
 }

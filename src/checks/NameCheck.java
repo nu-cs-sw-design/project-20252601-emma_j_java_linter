@@ -17,9 +17,17 @@ public class NameCheck {
             }
         }
 
-        //field names should start w lowercase
+        //field names should start w lowercase, except constants
         for (String fieldName : info.fields) {
-            if ((fieldName != null) && (!fieldName.isEmpty())) {
+            Integer mods = info.fieldModifiers.get(fieldName);
+            boolean isConstant = ((mods & Opcodes.ACC_FINAL) != 0) && 
+                ((mods & Opcodes.ACC_STATIC) != 0);
+            if (isConstant) {
+                if (!fieldName.matches("[A-Z0-9_]+")) {
+                    System.out.println("NameCheck Warning: Constant field name '" +
+                    fieldName + "' should be all uppercase letters, numbers, or underscores.");
+                }
+            } else if ((fieldName != null) && (!fieldName.isEmpty())) {
                 char firstChar = fieldName.charAt(0);
                 if (!Character.isLowerCase(firstChar)) {
                     System.out.println("NameCheck Warning: Field name '" + 
@@ -30,6 +38,10 @@ public class NameCheck {
 
         //method names should start w lowercase
         for (String methodName : info.methods) {
+
+            //stop picking up <init>
+            if (methodName.equals("<init>")) continue;
+
             if ((methodName != null) && (!methodName.isEmpty())) {
                 char firstChar = methodName.charAt(0);
                 if (!Character.isLowerCase(firstChar)) {
@@ -39,18 +51,7 @@ public class NameCheck {
             }
         }
 
-        //constants should be all uppercase
-        for (String fieldName : info.fields) {
-            Integer mods = info.fieldModifiers.get(fieldName);
-            boolean isConstant = ((mods & Opcodes.ACC_FINAL) != 0) && 
-                ((mods & Opcodes.ACC_STATIC) != 0);
-            if (isConstant) {
-                if (!fieldName.matches("[A-Z0-9_]+")) {
-                    System.out.println("NameCheck Warning: Constant field name '" +
-                    fieldName + "' should be all uppercase letters, numbers, or underscores.");
-                }
-            }
-        }
+
 
 
     }   
