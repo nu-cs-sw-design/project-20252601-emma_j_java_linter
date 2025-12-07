@@ -4,8 +4,11 @@ import asm.ClassInfo;
 import org.objectweb.asm.Opcodes;
 
 public class NameCheck {
+
+    private static final int MAX_NAME_LENGTH = 30;
     
     public void run(ClassInfo info) {
+
 
         System.out.println("running name Check...");
         //class names should start w uppercase
@@ -15,6 +18,8 @@ public class NameCheck {
                 System.out.println("NameCheck Warning: Class name '" + 
                 info.className + "' should start with an uppercase letter.");
             }
+
+            checkNameLength("Class", info.className);
         }
 
         //field names should start w lowercase, except constants
@@ -34,6 +39,7 @@ public class NameCheck {
                     fieldName + "' should start with a lowercase letter.");
                 }
             }
+            checkNameLength("Field", fieldName);
         }
 
         //method names should start w lowercase
@@ -49,10 +55,16 @@ public class NameCheck {
                     methodName + "' should start with a lowercase letter.");
                 }
             }
+            checkNameLength("Method", methodName);
         }
 
 
-
-
-    }   
+    }  
+    
+    private void checkNameLength(String type, String name) {
+    if ((name != null) && (name.length() > MAX_NAME_LENGTH)) {
+        System.out.println("NameCheck Warning: " + type + " name '" +
+        name + "' exceeds maximum length of " + MAX_NAME_LENGTH + " characters.");
+        }
+    }
 }
