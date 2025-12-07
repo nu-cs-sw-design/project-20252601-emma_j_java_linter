@@ -38,4 +38,62 @@ class LongMethodNameTest {
 }
 
 
-//more for other checks: TODO
+//cyclic dependency
+class AdependsOnB {
+    BdependsOnA b = new BdependsOnA();
+}
+
+class BdependsOnA {
+    AdependsOnB a = new AdependsOnB();
+}
+
+
+//tons of dependencies
+class HighDependencyClass {
+    A a;
+    B b;
+    C c;
+    D d;
+    E e;
+    F f;
+    G g;
+    H h;
+    I i;
+    J j;
+    K k; //11 in total
+
+    void useAll() {
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+        System.out.println(d);
+        System.out.println(e);
+        System.out.println(f);
+        System.out.println(g);
+        System.out.println(h);
+        System.out.println(i);
+        System.out.println(j);
+        System.out.println(k);
+    }
+}
+
+class A {}
+class B {}
+class C {}
+class D {}
+class E {}
+class F {}
+class G {}
+class H {}
+class I {}
+class J {}
+class K {}
+
+//self dependency/inheritance
+class SelfRef {
+    SelfRef self = new SelfRef();
+
+    void useSelf() {
+        System.out.println(self);
+    }
+}

@@ -19,4 +19,5 @@ public class ClassInfo {
 
     //need this to track dependencies
     public Set<String> referencedClasses = new HashSet<>();
+    
 }
