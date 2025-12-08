@@ -19,6 +19,11 @@ public class Linter {
         }
 
         String classFilePath = args[0];
+        //add .class if not there
+        if (!classFilePath.endsWith(".class")) {
+            classFilePath = classFilePath + ".class";
+        }
+
 
         try {
             ClassInfo classInfo = new ClassInfo();

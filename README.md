@@ -30,4 +30,13 @@ Emma Johnston
 - java -cp ".:../libs/asm-9.9.jar:../libs/asm-commons-9.9.jar" Linter ./BdependsOnA.class
 - java -cp ".:../libs/asm-9.9.jar:../libs/asm-commons-9.9.jar" Linter ./ClassTooLonggggggggggggggggggggggggggggggggggggggggggg.class
 
+## Another testing option- test your own file/code instead of my test file
+
+- create a file in the src folder, fill it with whatever you wish to use the linter on
+- from inside src, run javaC <yourNewFile'sName>
+- javac -cp ".:../libs/asm-9.9.jar:../libs/asm-commons-9.9.jar" Linter.java asm/*.java checks/*.java (Compile the entire linter)
+- java -cp ".:../libs/asm-9.9.jar:../libs/asm-commons-9.9.jar" Linter ./<NewClassFile'sName> 
+(that was created by running javaC <yourNewFile'sName>)
+- repeat as necessary for any classes you wish to test!
+
 
