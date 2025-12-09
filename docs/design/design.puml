@@ -1,2 +1,76 @@
 @startuml
+
+package asm {
+
+    class ClassInfo {
+        +String className
+        +String superClassName
+        +List<String> interfaceNames
+        +List<String> methods
+        +Map<String, Integer> methodModifiers
+        +List<String> fields
+        +Map<String, Integer> fieldModifiers
+        +Set<String> referencedClasses
+    }
+
+    class MyClassVisitor {
+        - {final} ClassInfo classInfo
+        +visit(...)
+        +visitMethod(...)
+        +visitField(...)
+    }
+}
+
+package checks {
+
+    class NameCheck {
+        +run(ClassInfo)
+    }
+
+    class CycleCheck {
+        +run(ClassInfo)
+    }
+
+    class RedundancyCheck {
+        +run(ClassInfo)
+    }
+}
+
+package org.objectweb.asm {
+
+    interface ClassVisitor
+    interface MethodVisitor
+    interface FieldVisitor
+    class Type
+}
+
+
+'RELATIONSHIPS
+
+org.objectweb.asm.ClassVisitor <|-- asm.MyClassVisitor
+
+asm.MyClassVisitor ..> org.objectweb.asm.MethodVisitor
+asm.MyClassVisitor ..> org.objectweb.asm.FieldVisitor
+asm.MyClassVisitor ..> org.objectweb.asm.Type
+
+asm.MyClassVisitor --> "1" asm.ClassInfo
+
+checks.NameCheck ..> asm.ClassInfo
+checks.CycleCheck ..> asm.ClassInfo
+checks.RedundancyCheck ..> asm.ClassInfo
+
+package linter {
+
+    class Linter {
+        +main(String[] args)
+    }
+}
+
+linter.Linter ..> asm.ClassInfo
+linter.Linter ..> asm.MyClassVisitor
+linter.Linter ..> checks.NameCheck
+linter.Linter ..> checks.CycleCheck
+linter.Linter ..> checks.RedundancyCheck
+linter.Linter ..> org.objectweb.asm.ClassReader
+
 @enduml
