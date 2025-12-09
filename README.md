@@ -8,6 +8,11 @@ Emma Johnston
 - `asm-9.9.jar`
 - `asm-commons-9.9.jar`
 
+## Functionality summary: 
+- checks for naming conventions- length and capitalization
+- checks for cycle dependency- tight coupling (whether there are dependency loops)
+- checks for redundancy in interfaces and how they are declared, preventing self-inheritence 
+
 ## Build Instructions
 - clone this repository to your machine
 - Make sure the dependencies are fulfilled (run in Java v11 and download asm libraries)
