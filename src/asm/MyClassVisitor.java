@@ -8,7 +8,7 @@ import org.objectweb.asm.Type;
 
 public class MyClassVisitor extends ClassVisitor{
 
-    private ClassInfo classInfo;
+    private final ClassInfo classInfo;
 
     public MyClassVisitor(ClassInfo classInfo) {
         super(Opcodes.ASM9);
